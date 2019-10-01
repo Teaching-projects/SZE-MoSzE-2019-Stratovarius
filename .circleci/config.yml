@@ -1,13 +1,13 @@
-version:2
+version:2.1
 jobs:
-	kiiratas:
+	Tesztkoszones:
 		machine:
-			image:ubuntu-1604:201903-01
+			- image: ubuntu-1604:201903-01
 		steps:
-			-checkout
-			-run: echo "Mukodik CircleCI"
+			- checkout
+			- run: echo "Mukodik a CircleCI"
 workflows:
-	version:2
-	Projektnév:
+	version: 2
+	Tesztkoszones:
 		jobs:
 			-kiiratas
