@@ -15,20 +15,20 @@ class Dictionary {
 private:
 	vector<Pair> system;
 public:
-	void mkdir(string s, string currentfolder) {
+	void mkdir(string dirName, string currentFolder) {
 		bool found = false;
 		for (int i = 0; i < this->system.size(); i++) {
-			if (currentfolder == this->system[i].folder && s == this->system[i].subfolder) {
+			if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
 				found = true;
 			}
 		}
 		if (found) {
 			cout << "This directory already exist" << endl;
 		}
-		if (s != "..") {
+		if (dirName != "..") {
 			Pair p;
-			p.folder = currentfolder;
-			p.subfolder = s;
+			p.folder = currentFolder;
+			p.subfolder = dirName;
 			this->system.push_back(p);
 		}
 		else {
@@ -36,25 +36,27 @@ public:
 		}
 	}
 
-	void ls(string c) {
+	void ls(string currentFolder) {
 		for (int i = 0; i < this->system.size(); i++) {
-			if (c == this->system[i].folder) {
+			if (currentFolder == this->system[i].folder) {
 				cout << this->system[i].subfolder << endl;
 			}
 		}
 	}
-	string cd(string chosen, string current) {
-		int found = 0;
+	string cd(string dirName, string currentFolder) {
+		bool found = false;
 		for (int i = 0; i < this->system.size(); i++) {
-			if (current == this->system[i].folder && chosen == this->system[i].subfolder) {
-				current += "/" + chosen;
-				found++;
+			if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
+				currentFolder += "/" + dirName;
+				found = true;
+					
 			}
 		}
-		if (found == 0) {
+		if (found == false) {
 			cout << "No such file in this directory" << endl;
 		}
-		return current;
+		//Todo ha a mappanev ua, akkor irja ki, hogy a mappanev ua
+		return currentFolder;
 	}
 
 };
@@ -64,8 +66,7 @@ void main() {
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
-	string currentFolderCd;
-
+	
 	while (parancs != "q") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
@@ -74,7 +75,6 @@ void main() {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		if (parancs == "mkdir") {
-			string temp;
 			string dirname;
 			cin >> dirname;
 			d.mkdir(dirname, CurrentFolder);
