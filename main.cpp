@@ -1,4 +1,4 @@
-#include "cmd.h"
+#include "Header.h"
 
 void main() {
 	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
@@ -10,7 +10,7 @@ void main() {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
 		cin >> parancs;
-		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd..") {
+		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd.." && parancs != "rm") {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		if (parancs == "mkdir") {
@@ -38,6 +38,11 @@ void main() {
 
 		if (parancs == "ls") {
 			d.ls(CurrentFolder);
+		}
+		if (parancs == "rm") {
+			string dirname;
+			cin >> dirname;
+			d.rm(dirname, CurrentFolder);
 		}
 	}
 }

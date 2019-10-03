@@ -18,6 +18,7 @@ public:
 	void mkdir(string dirName, string currentFolder);
 	void ls(string currentFolder);
 	string cd(string dirName, string currentFolder);
+	void rm(string dirName, string currentFolder);
 };
 
 #endif
