@@ -1,4 +1,4 @@
-#include "Header.h"
+#include "cmd.h"
 
 void main() {
 	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
