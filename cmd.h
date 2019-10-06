@@ -19,6 +19,7 @@ public:
 	void ls(string currentFolder);
 	string cd(string dirName, string currentFolder);
 	void rm(string dirName, string currentFolder);
+	void rmForce(string dirName, string currentFolder);
 };
 
 #endif

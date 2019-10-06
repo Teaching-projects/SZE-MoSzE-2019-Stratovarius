@@ -43,18 +43,33 @@ using namespace std;
 		//Todo ha a mappanev ua, akkor irja ki, hogy a mappanev ua
 		return currentFolder;
 	}
+
 	void Dictionary::rm(string dirName, string currentFolder) {
 		bool found = false;
+		bool hasContent = true;
 		for (unsigned int i = 0; i < this->system.size(); i++) {
-			if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
-				this->system.erase(this -> system.begin() + i);
+			if (currentFolder == this->system[i].folder && dirName != this->system[i].subfolder) {
 				found = true;
+				this->system.erase(this->system.begin() + i);
 			}
+			else cout << "Cannot delete folder, it has content in it!" << endl;
 		}
 		if (found == false) {
 			cout << "No such file in this directory" << endl;
 		}
 	}
 
-
-
+	void Dictionary::rmForce(string dirName, string currentFolder) {
+		bool found = false;
+		bool hasContent = true;
+		for (unsigned int i = 0; i < this->system.size(); i++) {
+			if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
+				found = true;
+				this->system.erase(this->system.begin() + i);
+				cout << "Successfully deleted folder " << dirName << " and all of its content! " << endl;
+			}
+		}
+		if (found == false) {
+			cout << "No such file in this directory" << endl;
+		}
+	}

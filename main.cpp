@@ -42,7 +42,11 @@ void main() {
 		if (parancs == "rm") {
 			string dirname;
 			cin >> dirname;
-			d.rm(dirname, CurrentFolder);
+			if (dirname == "-rf") {
+				cin >> dirname;
+				d.rmForce(dirname, CurrentFolder);
+			}
+			else d.rm(dirname, CurrentFolder);
 		}
 	}
 }
