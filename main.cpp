@@ -10,7 +10,7 @@ void main() {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
 		cin >> parancs;
-		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd.." && parancs != "rm") {
+		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd.." && parancs != "rm" && parancs != "touch") {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		if (parancs == "mkdir") {
@@ -47,6 +47,11 @@ void main() {
 				d.rmForce(dirname, CurrentFolder);
 			}
 			else d.rm(dirname, CurrentFolder);
+		}
+		if (parancs == "touch") {
+			string fileName;
+			cin >> fileName;
+			d.touch(fileName, CurrentFolder);
 		}
 	}
 }
