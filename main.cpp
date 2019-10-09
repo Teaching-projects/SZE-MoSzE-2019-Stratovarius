@@ -11,7 +11,7 @@ bool validcommand(string command) {
 	return valid;
 }
 
-void main() {
+int main() {
 	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
@@ -64,4 +64,5 @@ void main() {
 			d.touch(fileName, CurrentFolder);
 		}
 	}
+	return 0;
 }
