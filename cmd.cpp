@@ -108,20 +108,34 @@ void Dictionary::deleteRecursively(string toDelete, string currentFolder) {
 	string toDeleteAsFolder = currentFolder + "/" + toDelete;
 
 	// Fileokat
+	vector<FileDescriptor> fileDescriptorVectorNew;
 	for (unsigned int i = this->fileDescriptorVector.size(); i > 0 ; i--) {
 		if (this->fileDescriptorVector[i-1].filePath.find(toDeleteAsFolder) != std::string::npos) {
 			cout << "Deleted:" << this->fileDescriptorVector[i-1].fileName << endl;
-			this->fileDescriptorVector.erase(this->fileDescriptorVector.end()-1);
+		}
+		else {
+			FileDescriptor currentFileData;
+			currentFileData.fileName = this->fileDescriptorVector[i - 1].fileName;
+			currentFileData.filePath = this->fileDescriptorVector[i - 1].filePath;
+			fileDescriptorVectorNew.push_back(currentFileData);
 		}
 	}
+	this->fileDescriptorVector = fileDescriptorVectorNew;
 
 	// Almappakat
+	vector<Pair> subFolderVectorNew;
 	for (unsigned int i = this->system.size(); i > 0 ; i--) {
 		if (this->system[i-1].folder.find(toDeleteAsFolder) != std::string::npos) {
 			cout << "Deleted:" << this->system[i-1].subfolder << endl;
-			this->system.erase(this->system.end() - 1);
+		}
+		else {
+			Pair folderNew;
+			folderNew.folder = this->system[i - 1].folder;
+			folderNew.subfolder = this->system[i - 1].subfolder;
+			subFolderVectorNew.push_back(folderNew);
 		}
 	}
+	this->system = subFolderVectorNew;
 
 	// Vegul a torlendo mappat
 	for (unsigned int i = 0; i < this->system.size(); i++) {
