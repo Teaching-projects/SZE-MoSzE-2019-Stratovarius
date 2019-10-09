@@ -1,5 +1,16 @@
 #include "cmd.h"
 
+bool validcommand(string command) {
+	bool valid = false;
+	vector<string> commands = { "mkdir","q","ls","cd","rm","touch" };
+	for (unsigned int i = 0; i < commands.size(); i++) {
+		if (command == commands[i]) {
+			valid = true;
+		}
+	}
+	return valid;
+}
+
 void main() {
 	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
 	string CurrentFolder = "root";
@@ -10,7 +21,7 @@ void main() {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
 		cin >> parancs;
-		if (parancs != "mkdir" && parancs != "q" && parancs != "ls" && parancs != "cd" && parancs != "cd.." && parancs != "rm" && parancs != "touch") {
+		if (!validcommand(parancs)) {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		if (parancs == "mkdir") {
@@ -25,7 +36,6 @@ void main() {
 				if (CurrentFolder != "root") {
 					int cut = CurrentFolder.find_last_of("/");
 					CurrentFolder = CurrentFolder.substr(0, cut);
-					cout << "\n ----------- \n" << CurrentFolder << "\n ------------ \n"; //Kizárólag debugolásra készült sor.
 				}
 				else {
 					cout << "You're already in the root directory." << endl;
