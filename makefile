@@ -1,5 +1,5 @@
 OBJS=cmd.o main.o
-CXXFLAGS=-O2
+CXXFLAGS=-O2 -std=c++11
 
 terminal: $(OBJS)
 	g++ -o terminal $(OBJS)
