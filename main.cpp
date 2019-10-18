@@ -2,7 +2,7 @@
 
 bool validcommand(string command) {
 	bool valid = false;
-	vector<string> commands = { "mkdir","q","ls","cd","rm","touch" };
+	vector<string> commands = { "mkdir","q","ls","cd","rm","touch", "echo" };
 	for (unsigned int i = 0; i < commands.size(); i++) {
 		if (command == commands[i]) {
 			valid = true;
@@ -62,6 +62,21 @@ int main() {
 			string fileName;
 			cin >> fileName;
 			d.touch(fileName, CurrentFolder);
+		}
+		if (parancs == "echo") {
+			string fileContent;
+			cin >> fileContent;
+			string redirectSign;
+			cin >> redirectSign;
+			string fileName;
+			cin >> fileName;
+
+			if (redirectSign != ">") {
+				cout << "Invalid command!" << endl;
+			}
+			else {
+				d.echo(fileContent, fileName, CurrentFolder);
+			}
 		}
 	}
 	return 0;

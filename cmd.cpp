@@ -27,7 +27,7 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 		else {
 			cout << "Invalid foldername" << endl;
 		}
-	}	
+	}
 }
 
 void Dictionary::ls(string currentFolder) {
@@ -109,9 +109,9 @@ void Dictionary::deleteRecursively(string toDelete, string currentFolder) {
 
 	// Fileokat
 	vector<FileDescriptor> fileDescriptorVectorNew;
-	for (unsigned int i = this->fileDescriptorVector.size(); i > 0 ; i--) {
-		if (this->fileDescriptorVector[i-1].filePath.find(toDeleteAsFolder) != std::string::npos) {
-			cout << "Deleted:" << this->fileDescriptorVector[i-1].fileName << endl;
+	for (unsigned int i = this->fileDescriptorVector.size(); i > 0; i--) {
+		if (this->fileDescriptorVector[i - 1].filePath.find(toDeleteAsFolder) != std::string::npos) {
+			cout << "Deleted:" << this->fileDescriptorVector[i - 1].fileName << endl;
 		}
 		else {
 			FileDescriptor currentFileData;
@@ -124,9 +124,9 @@ void Dictionary::deleteRecursively(string toDelete, string currentFolder) {
 
 	// Almappakat
 	vector<Pair> subFolderVectorNew;
-	for (unsigned int i = this->system.size(); i > 0 ; i--) {
-		if (this->system[i-1].folder.find(toDeleteAsFolder) != std::string::npos) {
-			cout << "Deleted:" << this->system[i-1].subfolder << endl;
+	for (unsigned int i = this->system.size(); i > 0; i--) {
+		if (this->system[i - 1].folder.find(toDeleteAsFolder) != std::string::npos) {
+			cout << "Deleted:" << this->system[i - 1].subfolder << endl;
 		}
 		else {
 			Pair folderNew;
@@ -212,10 +212,49 @@ void Dictionary::touch(string fileName, string currentFolder) {
 			FileDescriptor currentFileData;
 			currentFileData.fileName = fileName;
 			currentFileData.filePath = currentFolder;
+			currentFileData.fileContent = "";
 			this->fileDescriptorVector.push_back(currentFileData);
 		}
 		else {
 			cout << "Invalid filename" << endl;
 		}
+	}
+}
+void Dictionary::echo(string fileContent, string fileName, string currentFolder) {
+	bool foundDirectory = false;
+	for (unsigned int i = 0; i < this->system.size(); i++) {
+		if (fileName == this->system[i].subfolder) {
+			foundDirectory = true;
+		}
+	}
+	if (foundDirectory) {
+		cout << "This directory already exists" << endl;
+	}
+	else {
+		bool foundFile = false;
+
+		for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
+			if (fileName == this->fileDescriptorVector[i].fileName) {
+				this->fileDescriptorVector[i].fileContent = fileContent;
+				foundFile = true;
+				cout << this->fileDescriptorVector[i].fileContent << endl;
+			}
+		}
+		if (!foundFile) {
+			if (fileName != "..") {
+				FileDescriptor currentFileData;
+				currentFileData.fileContent = fileContent;
+				currentFileData.fileName = fileName;
+				currentFileData.filePath = currentFolder;
+				this->fileDescriptorVector.push_back(currentFileData);
+				cout << currentFileData.fileContent << endl;
+
+			}
+			else
+			{
+				cout << "Invalid filename" << endl;
+			}
+		}
+
 	}
 }
