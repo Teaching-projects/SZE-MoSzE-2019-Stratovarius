@@ -11,12 +11,38 @@ bool validcommand(string command) {
 	return valid;
 }
 
+vector<string> split(string path) {
+	vector<string> directories;
+	int cut=0;
+	while (cut < 4294967290) {
+		cut = path.find_first_of("/");
+		string element = path.substr(0,cut);
+		directories.push_back(element);
+		path= path.substr(cut+1,path.size());
+	}
+
+	return directories;
+}
+
 int main() {
 	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
 
+	//dirName.find_first_of("/") 0-tól számozva az elõdordulást adja, egyébként 4294967295
+	/*
+	****************** TESZTELÕ RÉSZ *************************
+
+	cout << "************* TESZT *************" << endl;
+	string proba = "asd/asd2/asd3";
+	vector<string> p = split(proba);
+	cout << p[0] << endl;
+	cout << p[1] << endl;
+
+	cout << endl << "***********************************" << endl;
+	// *********************************************************
+	*/
 	while (parancs != "q") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
@@ -32,18 +58,28 @@ int main() {
 		if (parancs == "cd") {
 			string dirname;
 			cin >> dirname;
-			if (dirname == "..") {
-				if (CurrentFolder != "root") {
-					int cut = CurrentFolder.find_last_of("/");
-					CurrentFolder = CurrentFolder.substr(0, cut);
+			vector<string> path;
+			if (dirname.find_first_of("/") < 4294967290) {
+				path = split(dirname);
+			}
+			else {				
+				path.push_back(dirname);
+			}
+			for (unsigned int i = 0; i < path.size(); i++) {
+				if (path[i] == "..") {
+					if (CurrentFolder != "root") {
+						int cut = CurrentFolder.find_last_of("/");
+						CurrentFolder = CurrentFolder.substr(0, cut);
+					}
+					else {
+						cout << "You're already in the root directory." << endl;
+					}
 				}
 				else {
-					cout << "You're already in the root directory." << endl;
+					CurrentFolder = d.cd(path[i], CurrentFolder);
 				}
 			}
-			else {
-				CurrentFolder = d.cd(dirname, CurrentFolder);
-			}
+			
 		}
 
 		if (parancs == "ls") {

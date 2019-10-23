@@ -45,13 +45,14 @@ void Dictionary::ls(string currentFolder) {
 string Dictionary::cd(string dirName, string currentFolder) {
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
-		if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
+		if ((currentFolder == this->system[i].folder) && (dirName == this->system[i].subfolder)) {
 			currentFolder += "/" + dirName;
 			found = true;
+			break;
 		}
 	}
 	if (found == false) {
-		cout << "No such file in this directory" << endl;
+		cout << "No such file in this directory." << endl;
 	}
 	return currentFolder;
 }
