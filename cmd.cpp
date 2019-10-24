@@ -241,17 +241,19 @@ void Dictionary::echo(string fileContent, string fileName, string currentFolder)
 			}
 		}
 		if (!foundFile) {
-			if (fileName != "..") {
+			if (fileName != ".." && fileName != ".") {
 				FileDescriptor currentFileData;
-				currentFileData.fileContent = fileContent;
+				if (fileContent == "\"\"") {
+					currentFileData.fileContent = "";
+				}
+				else {
+					currentFileData.fileContent = fileContent;
+				}
 				currentFileData.fileName = fileName;
 				currentFileData.filePath = currentFolder;
 				this->fileDescriptorVector.push_back(currentFileData);
-				cout << currentFileData.fileContent << endl;
-
 			}
-			else
-			{
+			else {
 				cout << "Invalid filename" << endl;
 			}
 		}
