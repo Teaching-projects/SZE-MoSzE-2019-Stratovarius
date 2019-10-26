@@ -30,19 +30,6 @@ int main() {
 	Dictionary d;
 	string parancs;
 
-	//dirName.find_first_of("/") 0-tól számozva az elõdordulást adja, egyébként 4294967295
-	/*
-	****************** TESZTELÕ RÉSZ *************************
-
-	cout << "************* TESZT *************" << endl;
-	string proba = "asd/asd2/asd3";
-	vector<string> p = split(proba);
-	cout << p[0] << endl;
-	cout << p[1] << endl;
-
-	cout << endl << "***********************************" << endl;
-	// *********************************************************
-	*/
 	while (parancs != "q") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
