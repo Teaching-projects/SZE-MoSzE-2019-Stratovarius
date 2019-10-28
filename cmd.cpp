@@ -45,13 +45,14 @@ void Dictionary::ls(string currentFolder) {
 string Dictionary::cd(string dirName, string currentFolder) {
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
-		if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
+		if ((currentFolder == this->system[i].folder) && (dirName == this->system[i].subfolder)) {
 			currentFolder += "/" + dirName;
 			found = true;
+			break;
 		}
 	}
 	if (found == false) {
-		cout << "No such file in this directory" << endl;
+		cout << "No such file in this directory." << endl;
 	}
 	return currentFolder;
 }
@@ -212,7 +213,6 @@ void Dictionary::touch(string fileName, string currentFolder) {
 			FileDescriptor currentFileData;
 			currentFileData.fileName = fileName;
 			currentFileData.filePath = currentFolder;
-			currentFileData.fileContent = "";
 			this->fileDescriptorVector.push_back(currentFileData);
 		}
 		else {
@@ -237,7 +237,6 @@ void Dictionary::echo(string fileContent, string fileName, string currentFolder)
 			if (fileName == this->fileDescriptorVector[i].fileName) {
 				this->fileDescriptorVector[i].fileContent = fileContent;
 				foundFile = true;
-				cout << this->fileDescriptorVector[i].fileContent << endl;
 			}
 		}
 		if (!foundFile) {
