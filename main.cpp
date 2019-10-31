@@ -14,7 +14,7 @@ bool validcommand(string command) {
 vector<string> split(string path) {
 	vector<string> directories;
 	int cut = 0;
-	while (cut < 4294967290) {
+	while (cut != string::npos) {
 		cut = path.find_first_of("/");
 		string element = path.substr(0, cut);
 		directories.push_back(element);
@@ -45,7 +45,7 @@ int main() {
 				string dirname;
 				cin >> dirname;
 				vector<string> path;
-				if (dirname.find_first_of("/") < 4294967290) {
+				if (dirname.find_first_of("/") != string::npos) {
 					path = split(dirname);
 					path.pop_back();
 					dirname = dirname.substr(dirname.find_last_of("/") + 1, dirname.size());
