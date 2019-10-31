@@ -13,6 +13,7 @@ struct Pair {
 struct FileDescriptor {
 	string fileName;
 	string filePath;
+	string fileContent;
 };
 
 class Dictionary {
@@ -27,6 +28,7 @@ public:
 	void deleteRecursively(string toDelete, string currentFolder);
 	void rmForce(string dirName, string currentFolder);
 	void touch(string fileName, string currentFolder);
+	void echo(string fileContent, string fileName, string currentFolder);
 };
 
 #endif
