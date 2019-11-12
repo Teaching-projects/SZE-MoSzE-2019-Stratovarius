@@ -27,6 +27,11 @@ public:
 	void deleteRecursively(string toDelete, string currentFolder);
 	void rmForce(string dirName, string currentFolder);
 	void touch(string fileName, string currentFolder);
+	void writeToFile(string fsname);
+	void loadFromFile(string fsname);
+	void splitString(string& str, vector<string>& out, string delim);
+	void addPairToVector(string folder, string subfolder);
+	bool checkIfNameIsValid(string dirName);
 };
 
 #endif

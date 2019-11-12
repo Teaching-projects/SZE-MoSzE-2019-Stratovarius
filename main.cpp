@@ -2,7 +2,7 @@
 
 bool validcommand(string command) {
 	bool valid = false;
-	vector<string> commands = { "mkdir","q","ls","cd","rm","touch" };
+	vector<string> commands = { "mkdir","exit","ls","cd","rm","touch", "wf" ,"lf"};
 	for (unsigned int i = 0; i < commands.size(); i++) {
 		if (command == commands[i]) {
 			valid = true;
@@ -25,12 +25,16 @@ vector<string> split(string path) {
 }
 
 int main() {
-	cout << "Welcome in the terminal. Press 'q' to exit." << endl;
+	cout << "Welcome in the terminal. Write exit' to exit." << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
-
-	while (parancs != "q") {
+	string dirname;
+	string fsname;
+	cout << "Please add file name to load filesystem from. " << endl;
+	cin >> fsname;
+	d.loadFromFile(fsname);
+	while (parancs != "exit") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
 		cin >> parancs;
@@ -42,7 +46,6 @@ int main() {
 				d.ls(CurrentFolder);
 			}
 			else {
-				string dirname;
 				cin >> dirname;
 				vector<string> path;
 				if (dirname.find_first_of("/") < 4294967290) {
@@ -92,8 +95,12 @@ int main() {
 				if (parancs == "touch") {
 					d.touch(dirname, CurrentFolder);
 				}
+				if (parancs == "exit") {
+					break;
+				}
 			}
 		}
 	}
+	d.writeToFile(fsname);
 	return 0;
 }
