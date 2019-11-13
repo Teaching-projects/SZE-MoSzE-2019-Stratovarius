@@ -1,7 +1,6 @@
 #include "cmd.h"
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 using namespace std;
 
 void Dictionary::mkdir(string dirName, string currentFolder) {
