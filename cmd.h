@@ -31,6 +31,7 @@ public:
 	void loadFromFile(string fsname);
 	void splitString(string& str, vector<string>& out, string delim);
 	void addPairToVector(string folder, string subfolder);
+	Pair splitStringFirstSlash(string line);
 	bool checkIfNameIsValid(string dirName);
 };
 

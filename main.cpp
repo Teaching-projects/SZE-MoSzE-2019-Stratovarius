@@ -25,19 +25,25 @@ vector<string> split(string path) {
 }
 
 int main() {
+	cout << "Please add a valid file name to load filesystem from. " << endl;
 	cout << "Welcome in the terminal. Write exit' to exit." << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
 	string dirname;
 	string fsname;
-	cout << "Please add file name to load filesystem from. " << endl;
 	cin >> fsname;
+	while (validcommand(fsname)) {
+		cout << "Not valid name. Please add a valid file name to load filesystem from. " << endl;
+		cin >> fsname;
+		if (fsname == "exit") break;
+	}
 	d.loadFromFile(fsname);
 	while (parancs != "exit") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
 		cin >> parancs;
+		if (parancs == "exit") break;
 		if (!validcommand(parancs)) {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
@@ -94,9 +100,6 @@ int main() {
 				}
 				if (parancs == "touch") {
 					d.touch(dirname, CurrentFolder);
-				}
-				if (parancs == "exit") {
-					break;
 				}
 			}
 		}

@@ -6,7 +6,7 @@ using namespace std;
 
 void Dictionary::mkdir(string dirName, string currentFolder) {
 	bool found = false;
-	if (this->checkIfNameIsValid(dirName)) cout << "Name cannot contain special characters for folder names";
+	if (this->checkIfNameIsValid(dirName)) cout << "Name cannot contain special characters" << endl;
 	else {
 		for (unsigned int i = 0; i < this->system.size(); i++) {
 			if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
@@ -31,6 +31,7 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 			}
 		}
 	}
+	
 }
 
 void Dictionary::ls(string currentFolder) {
@@ -237,18 +238,15 @@ void Dictionary::writeToFile(string fsname) {
 }
 
 void Dictionary::loadFromFile(string fsname) {
-	
 	string line;
-	vector <string> subfolders;
+	Pair p;
 	ifstream systemStructure(fsname+".txt");
 	if (systemStructure.is_open())
 	{
 		while (getline(systemStructure, line))
 		{
-			splitString(line, subfolders, "/");
-		}
-		for (auto& line : subfolders) {
-			this->addPairToVector("root", line);
+			p = this->splitStringFirstSlash(line);
+			this->system.push_back(p);
 		}
 		systemStructure.close();
 	}
@@ -269,6 +267,17 @@ void Dictionary::addPairToVector(string folder, string subfolder) {
 	p.folder = folder;
 	p.subfolder = subfolder;
 	this->system.push_back(p);
+}
+
+Pair Dictionary::splitStringFirstSlash(string line) {
+	Pair p;
+	string path = line;
+	int cut = line.find_last_of("/");
+	line = line.substr(cut + 1, line.size());
+	path = path.substr(0, cut);
+	p.subfolder = line;
+	p.folder = path;
+	return p;
 }
 
 bool Dictionary::checkIfNameIsValid(string dirName) {
