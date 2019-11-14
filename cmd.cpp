@@ -5,40 +5,36 @@ using namespace std;
 
 void Dictionary::mkdir(string dirName, string currentFolder) {
 	bool found = false;
-	if (this->checkIfNameIsValid(dirName)) cout << "Name cannot contain special characters" << endl;
-	else {
-		for (unsigned int i = 0; i < this->system.size(); i++) {
-			if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
+	for (unsigned int i = 0; i < this->system.size(); i++) {
+		if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
 				found = true;
-			}
-		}
-		for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
-			if (dirName == this->fileDescriptorVector[i].fileName && currentFolder == this->fileDescriptorVector[i].filePath) {
-				found = true;
-			}
-		}
-		if (found) {
-			cout << "This file/directory already exists" << endl;
-		}
-		else
-		{
-			if (dirName != "..") {
-				this->addPairToVector(currentFolder, dirName);
-			}
-			else {
-				cout << "Invalid foldername" << endl;
-			}
 		}
 	}
-	
+	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
+		if (dirName == this->fileDescriptorVector[i].fileName && currentFolder == this->fileDescriptorVector[i].filePath) {
+			found = true;
+		}
+	}
+	if (found) {
+		cout << "This file/directory already exists" << endl;
+	}
+	else
+	{
+		if (!(this->isNotValid(dirName))) {
+			this->addPairToVector(currentFolder, dirName);
+		}
+		else {
+			cout << "Invalid foldername" << endl;
+		}
+	}
 }
 
 void Dictionary::ls(string currentFolder) {
-	
+
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (currentFolder == this->system[i].folder) {
-			if(this->system[i].subfolder != "root")
-			cout  <<this->system[i].subfolder << endl;
+			if (this->system[i].subfolder != "root")
+				cout << this->system[i].subfolder << endl;
 		}
 	}
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
@@ -224,7 +220,7 @@ void Dictionary::touch(string fileName, string currentFolder) {
 			cout << "Invalid filename" << endl;
 		}
 	}
-	
+
 }
 
 void Dictionary::writeToFile(string fsname) {
@@ -239,19 +235,19 @@ void Dictionary::writeToFile(string fsname) {
 void Dictionary::loadFromFile(string fsname) {
 	string line;
 	Pair p;
-	ifstream systemStructure(fsname+".txt");
+	ifstream systemStructure(fsname + ".txt");
 	if (systemStructure.is_open())
 	{
 		while (getline(systemStructure, line))
 		{
-			p = this->splitStringFirstSlash(line);
+			p = this->splitFolderPath(line);
 			this->system.push_back(p);
 		}
 		systemStructure.close();
 	}
 }
 
-void Dictionary::splitString(string &str, vector<string>& out, string delim) {
+void Dictionary::splitString(string& str, vector<string>& out, string delim) {
 	size_t start;
 	size_t end = 0;
 	while ((start = str.find_first_not_of(delim, end)) != std::string::npos)
@@ -268,7 +264,7 @@ void Dictionary::addPairToVector(string folder, string subfolder) {
 	this->system.push_back(p);
 }
 
-Pair Dictionary::splitStringFirstSlash(string line) {
+Pair Dictionary::splitFolderPath(string line) {
 	Pair p;
 	string path = line;
 	int cut = line.find_last_of("/");
@@ -279,10 +275,20 @@ Pair Dictionary::splitStringFirstSlash(string line) {
 	return p;
 }
 
-bool Dictionary::checkIfNameIsValid(string dirName) {
-	int i = 0;
-	while (dirName[i]) {
-		if (isalpha(dirName[i])) return false;
-		i++;
+bool Dictionary::isNotValid(string dirName) {
+	if (isalpha(dirName[0]))
+		return false;
+	else
+		return true;
+}
+
+
+bool Dictionary::validcommand(string command) {
+	bool valid = false;
+	for (unsigned int i = 0; i < this->commands.size(); i++) {
+		if (command == this->commands[i]) {
+			valid = true;
+		}
 	}
+	return valid;
 }

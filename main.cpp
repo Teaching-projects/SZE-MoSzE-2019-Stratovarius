@@ -1,15 +1,5 @@
 #include "cmd.h"
 
-bool validcommand(string command) {
-	bool valid = false;
-	vector<string> commands = { "mkdir","exit","ls","cd","rm","touch", "wf" ,"lf"};
-	for (unsigned int i = 0; i < commands.size(); i++) {
-		if (command == commands[i]) {
-			valid = true;
-		}
-	}
-	return valid;
-}
 
 vector<string> split(string path) {
 	vector<string> directories;
@@ -20,7 +10,6 @@ vector<string> split(string path) {
 		directories.push_back(element);
 		path = path.substr(cut + 1, path.size());
 	}
-
 	return directories;
 }
 
@@ -33,7 +22,7 @@ int main() {
 	string dirname;
 	string fsname;
 	cin >> fsname;
-	while (validcommand(fsname)) {
+	while (d.validcommand(fsname)) {
 		cout << "Not valid name. Please add a valid file name to load filesystem from. " << endl;
 		cin >> fsname;
 		if (fsname == "exit") break;
@@ -44,7 +33,7 @@ int main() {
 		cout << autotext;
 		cin >> parancs;
 		if (parancs == "exit") break;
-		if (!validcommand(parancs)) {
+		if (!d.validcommand(parancs)) {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		else {

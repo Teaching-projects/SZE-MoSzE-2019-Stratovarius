@@ -9,6 +9,7 @@ using namespace std;
 struct Pair {
 	string folder;
 	string subfolder;
+	
 };
 struct FileDescriptor {
 	string fileName;
@@ -19,6 +20,7 @@ class Dictionary {
 private:
 	vector<Pair> system;
 	vector<FileDescriptor> fileDescriptorVector;
+	vector<string> commands = { "mkdir","exit","ls","cd","rm","touch" };
 public:
 	void mkdir(string dirName, string currentFolder);
 	void ls(string currentFolder);
@@ -31,8 +33,9 @@ public:
 	void loadFromFile(string fsname);
 	void splitString(string& str, vector<string>& out, string delim);
 	void addPairToVector(string folder, string subfolder);
-	Pair splitStringFirstSlash(string line);
-	bool checkIfNameIsValid(string dirName);
+	Pair splitFolderPath(string line);
+	bool isNotValid(string dirName);
+	bool validcommand(string command);
 };
 
 #endif
