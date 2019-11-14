@@ -234,14 +234,12 @@ void Dictionary::writeToFile(string fsname) {
 
 void Dictionary::loadFromFile(string fsname) {
 	string line;
-	Pair p;
 	ifstream systemStructure(fsname + ".txt");
 	if (systemStructure.is_open())
 	{
 		while (getline(systemStructure, line))
 		{
-			p = this->splitFolderPath(line);
-			this->system.push_back(p);
+			this->splitFolderPath(line);
 		}
 		systemStructure.close();
 	}
@@ -258,21 +256,17 @@ void Dictionary::splitString(string& str, vector<string>& out, string delim) {
 }
 
 void Dictionary::addPairToVector(string folder, string subfolder) {
-	Pair p;
-	p.folder = folder;
-	p.subfolder = subfolder;
+	Pair p(folder, subfolder);
 	this->system.push_back(p);
 }
 
-Pair Dictionary::splitFolderPath(string line) {
-	Pair p;
+void Dictionary::splitFolderPath(string line) {
 	string path = line;
 	int cut = line.find_last_of("/");
 	line = line.substr(cut + 1, line.size());
 	path = path.substr(0, cut);
-	p.subfolder = line;
-	p.folder = path;
-	return p;
+	Pair p(path, line);
+	this->system.push_back(p);
 }
 
 bool Dictionary::isNotValid(string dirName) {

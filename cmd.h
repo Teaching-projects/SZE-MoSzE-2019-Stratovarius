@@ -9,7 +9,14 @@ using namespace std;
 struct Pair {
 	string folder;
 	string subfolder;
-	
+	Pair() {
+		this->folder ="";
+		this->subfolder = "";
+	}
+	Pair(string folder, string subfolder) {
+		this->folder = folder;
+		this->subfolder = subfolder;
+	}
 };
 struct FileDescriptor {
 	string fileName;
@@ -33,7 +40,7 @@ public:
 	void loadFromFile(string fsname);
 	void splitString(string& str, vector<string>& out, string delim);
 	void addPairToVector(string folder, string subfolder);
-	Pair splitFolderPath(string line);
+	void splitFolderPath(string line);
 	bool isNotValid(string dirName);
 	bool validcommand(string command);
 };
