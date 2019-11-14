@@ -9,14 +9,8 @@ using namespace std;
 struct Pair {
 	string folder;
 	string subfolder;
-	Pair() {
-		this->folder ="";
-		this->subfolder = "";
-	}
-	Pair(string folder, string subfolder) {
-		this->folder = folder;
-		this->subfolder = subfolder;
-	}
+	Pair();
+	Pair(string folder, string subfolder);
 };
 struct FileDescriptor {
 	string fileName;

@@ -3,6 +3,15 @@
 #include <fstream>
 using namespace std;
 
+Pair::Pair() {
+	this->folder = "";
+	this->subfolder = "";
+}
+Pair::Pair(string folder, string subfolder) {
+	this->folder = folder;
+	this->subfolder = subfolder;
+}
+
 void Dictionary::mkdir(string dirName, string currentFolder) {
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
