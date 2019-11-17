@@ -92,6 +92,20 @@ int main() {
 				if (parancs == "touch") {
 					d.touch(dirname, CurrentFolder);
 				}
+				if (parancs == "echo") {
+					string fileContent;
+					fileContent = dirname;
+					string redirectSign;
+					cin >> redirectSign;
+					string fileName;
+					cin >> fileName;
+					if (redirectSign != ">") {
+						cout << "Invalid command!" << endl;
+					}
+					else {
+						d.echo(fileContent, fileName, CurrentFolder);
+					}
+				}
 			}
 		}
 	}
