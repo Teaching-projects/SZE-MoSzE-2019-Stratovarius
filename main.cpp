@@ -14,7 +14,7 @@ bool validcommand(string command) {
 vector<string> split(string path) {
 	vector<string> directories;
 	int cut = 0;
-	while (cut < 4294967290) {
+	while (cut < path.length()+1) {
 		cut = path.find_first_of("/");
 		string element = path.substr(0, cut);
 		directories.push_back(element);
@@ -33,7 +33,7 @@ int main() {
 	while (parancs != "q") {
 		string autotext = "C:/" + CurrentFolder + ">";
 		cout << autotext;
-		cin >> parancs;
+		if (parancs != "q") cin >> parancs;
 		if (!validcommand(parancs)) {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
@@ -43,12 +43,12 @@ int main() {
 			}
 			else {
 				string dirname;
-				cin >> dirname;
+				if (parancs != "q") cin >> dirname;
 				vector<string> path;
-				if (dirname.find_first_of("/") < 4294967290) {
-					path = split(dirname);
-					path.pop_back();
+				if (dirname.find_first_of("/") < dirname.length()+1) {
+					path = split(dirname);				
 					dirname = dirname.substr(dirname.find_last_of("/") + 1, dirname.size());
+					path.pop_back();
 					for (unsigned int i = 0; i < path.size(); i++) {
 						if (path[i] == "..") {
 							if (CurrentFolder != "root") {
