@@ -14,7 +14,6 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
-    steps:
       - checkout
       - attach_workspace:
           at: .
