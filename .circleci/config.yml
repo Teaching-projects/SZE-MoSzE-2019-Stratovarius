@@ -14,8 +14,8 @@ jobs:
       - run: 
 	name: script
 	command: |
-		chmod 755 test
-		./test
+             chmod 755 test
+             ./test
 workflows:
   version: 2
   build_and_test:
