@@ -17,7 +17,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 'chmon 755 test'
+      - run: 'chmod 755 test'
       - run: './test'
 
 workflows:
