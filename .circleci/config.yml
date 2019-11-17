@@ -12,8 +12,8 @@ jobs:
     steps:
       - checkout
       - run: 
-	name: script
-	command: |
+        name: script
+        command: |
              chmod 755 test
              ./test
 workflows:
