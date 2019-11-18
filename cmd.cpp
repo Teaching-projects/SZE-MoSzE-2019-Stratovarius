@@ -230,6 +230,7 @@ void Dictionary::touch(string fileName, string currentFolder) {
 		}
 	}
 
+
 }
 
 void Dictionary::writeToFile(string fsname) {
@@ -294,4 +295,45 @@ bool Dictionary::validcommand(string command) {
 		}
 	}
 	return valid;
+
+}
+void Dictionary::echo(string fileContent, string fileName, string currentFolder) {
+	bool foundDirectory = false;
+	for (unsigned int i = 0; i < this->system.size(); i++) {
+		if (fileName == this->system[i].subfolder) {
+			foundDirectory = true;
+		}
+	}
+	if (foundDirectory) {
+		cout << "This directory already exists" << endl;
+	}
+	else {
+		bool foundFile = false;
+
+		for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
+			if (fileName == this->fileDescriptorVector[i].fileName) {
+				this->fileDescriptorVector[i].fileContent = fileContent;
+				foundFile = true;
+			}
+		}
+		if (!foundFile) {
+			if (fileName != ".." && fileName != ".") {
+				FileDescriptor currentFileData;
+				if (fileContent == "\"\"") {
+					currentFileData.fileContent = "";
+				}
+				else {
+					currentFileData.fileContent = fileContent;
+				}
+				currentFileData.fileName = fileName;
+				currentFileData.filePath = currentFolder;
+				this->fileDescriptorVector.push_back(currentFileData);
+			}
+			else {
+				cout << "Invalid filename" << endl;
+			}
+		}
+
+	}
+
 }

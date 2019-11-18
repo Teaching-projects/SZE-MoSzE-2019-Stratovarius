@@ -15,6 +15,7 @@ struct Pair {
 struct FileDescriptor {
 	string fileName;
 	string filePath;
+	string fileContent;
 };
 
 class Dictionary {
@@ -37,6 +38,7 @@ public:
 	void splitFolderPath(string line);
 	bool isNotValid(string dirName);
 	bool validcommand(string command);
+	void echo(string fileContent, string fileName, string currentFolder);
 };
 
 #endif
