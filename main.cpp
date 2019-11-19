@@ -2,7 +2,7 @@
 
 bool validcommand(string command) {
 	bool valid = false;
-	vector<string> commands = { "mkdir","q","ls","cd","rm","touch", "echo" };
+	vector<string> commands = { "mkdir","q","ls","cd","rm","touch", "echo", "mv" };
 	for (unsigned int i = 0; i < commands.size(); i++) {
 		if (command == commands[i]) {
 			valid = true;
@@ -41,8 +41,15 @@ int main() {
 			if (parancs == "ls") {
 				d.ls(CurrentFolder);
 			}
+			else if (parancs == "mv") {
+				string source;
+				cin >> source;
+				string dest;
+				cin >> dest;
+				d.mv(CurrentFolder, source, dest);
+			}
 			else {
-				string dirname;
+			string dirname;
 				cin >> dirname;
 				vector<string> path;
 				if (dirname.find_first_of("/") != string::npos) {
