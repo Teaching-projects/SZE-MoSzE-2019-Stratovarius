@@ -266,7 +266,7 @@ void Dictionary::splitString(string& str, vector<string>& out, string delim) {
 }
 
 void Dictionary::addPairToVector(string folder, string subfolder) {
-	this->system.push_back(Pair(folder, subfolder);
+	this->system.push_back(Pair(folder, subfolder));
 }
 
 void Dictionary::splitFolderPath(string line) {
