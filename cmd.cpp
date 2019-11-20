@@ -29,7 +29,7 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 	}
 	else
 	{
-		if (!(this->isNotValid(dirName))) {
+		if (!(this->isValid(dirName))) {
 			this->addPairToVector(currentFolder, dirName);
 		}
 		else {
@@ -278,7 +278,7 @@ void Dictionary::splitFolderPath(string line) {
 	this->system.push_back(p);
 }
 
-bool Dictionary::isNotValid(string dirName) {
+bool Dictionary::isValid(string dirName) {
 	if (isalpha(dirName[0]))
 		return false;
 	else
