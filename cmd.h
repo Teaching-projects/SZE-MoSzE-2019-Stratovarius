@@ -36,7 +36,7 @@ public:
 	void splitString(string& str, vector<string>& out, string delim);
 	void addPairToVector(string folder, string subfolder);
 	void splitFolderPath(string line);
-	bool isNotValid(string dirName);
+	bool isValid(string dirName);
 	bool validcommand(string command);
 	void echo(string fileContent, string fileName, string currentFolder);
 };
