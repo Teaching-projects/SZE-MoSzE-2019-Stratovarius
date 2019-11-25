@@ -274,24 +274,17 @@ bool Dictionary::searchFile(string fileName, string filePath) {
 }
 bool Dictionary::searchDirectory(string folder, string subfolder) {
 	bool found = false;
-	// cout << "searchDirectory meghiv- folder: " << folder << endl;
-	// cout << "searchDirectory meghiv- subfolder: " << subfolder << endl;
 	if (folder == "root" && (subfolder.size() == 0 || subfolder == "root")) {
 		// faking the root directory
 		found = true;
 	}
 	else {
 		for (unsigned int i = 0; i < this->system.size(); i++) {
-			// cout << "searchDirectory meghiv- letezo elem: " << this->system[i].folder << "," << this->system[i].subfolder << endl;
-
 			if (this->system[i].folder == folder && this->system[i].subfolder == subfolder) {
 				found = true;
 			}
 		}
 	}
-
-	// cout << "searchDirectory meghiv- found: " << found << endl;
-
 	return found;
 }
 
@@ -308,8 +301,6 @@ string Dictionary::getLastElement(string fullPath) {
 
 string Dictionary::convertRelativeToAbsolutePath(string relativePath, string currentFolder) {
 	string absolutPath;
-	//cout << "convertRelativeToAbsolutePath: [relativePath]:" << relativePath << " [currentFolder]:" << currentFolder << endl;
-
 	// ha nincs benne se . se ..
 	if (relativePath.find_first_of(".") == string::npos) {
 		absolutPath = currentFolder + "/" + relativePath;
@@ -336,9 +327,6 @@ string Dictionary::convertRelativeToAbsolutePath(string relativePath, string cur
 	// ha /-re vegzodik, levagjuk
 	if (absolutPath.at(absolutPath.size() - 1) == '/')
 		absolutPath = absolutPath.substr(0, absolutPath.size() - 1);
-
-	//cout << "convertRelativeToAbsolutePath: [absolutPath]:" << absolutPath << endl;
-
 	return absolutPath;
 }
 
@@ -360,11 +348,6 @@ string Dictionary::getParentPath(string fullPath) {
 }
 
 void Dictionary::moveFile(string sourcePath, string sourceLastElement, string destPath, string destLastElement) {
-	//cout << "moveFile - sourcePath:" << sourcePath << endl;
-	//cout << "moveFile - sourceLastElement:" << sourceLastElement << endl;
-	//cout << "moveFile - destPath:" << destPath << endl;
-	//cout << "moveFile - destLastElement:" << destLastElement << endl;
-
 	bool found = false;
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
 		if (!found && this->fileDescriptorVector[i].fileName == sourceLastElement && this->fileDescriptorVector[i].filePath == sourcePath) {
@@ -377,11 +360,6 @@ void Dictionary::moveFile(string sourcePath, string sourceLastElement, string de
 }
 
 void Dictionary::moveDirectory(string sourcePath, string sourceLastElement, string destPath, string destLastElement) {
-	//cout << "moveDirectory - sourcePath:" << sourcePath << endl;
-	//cout << "moveDirectory - sourceLastElement:" << sourceLastElement << endl;
-	//cout << "moveDirectory - destPath:" << destPath << endl;
-	//cout << "moveDirectory - destLastElement:" << destLastElement << endl;
-
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (!found && this->system[i].folder == sourcePath && this->system[i].subfolder == sourceLastElement) {
@@ -395,18 +373,10 @@ void Dictionary::moveDirectory(string sourcePath, string sourceLastElement, stri
 }
 
 void Dictionary::mv(string currentFolder, string source, string dest) {
-
-	//cout << "currentFolder: " << currentFolder << endl;
-
 	string sourcePath = getPath(source, currentFolder);
 	string sourceLastElement = getLastElement(source);
 	string destPath = getPath(dest, currentFolder);
 	string destLastElement = getLastElement(dest);
-
-	//cout << "parameterdarabolas - source path: "<< sourcePath << endl;
-	//cout << "parameterdarabolas - source file/folder name: "<<sourceLastElement << endl;
-	//cout << "parameterdarabolas - dest path: " << destPath << endl;
-	//cout << "parameterdarabolas - dest file/folder name: " << destLastElement << endl;
 
 	bool isSourceFile = searchFile(sourceLastElement, sourcePath);
 	bool isSourceDirectory = searchDirectory(sourcePath, sourceLastElement);
@@ -416,8 +386,6 @@ void Dictionary::mv(string currentFolder, string source, string dest) {
 	if (isDestDirectory) {
 		destPath = destPath + "/" + destLastElement;
 		destLastElement = sourceLastElement;
-		//cout << "parameterdarabolas - dest path: " << destPath << endl;
-		//cout << "parameterdarabolas - dest file/folder name: " << destLastElement << endl;
 		isDestFile = searchFile(destLastElement, destPath);
 		isDestDirectory = searchDirectory(destPath, destLastElement);
 	}
