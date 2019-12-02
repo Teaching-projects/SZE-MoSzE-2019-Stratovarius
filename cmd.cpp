@@ -1,4 +1,6 @@
 #include "cmd.h"
+
+
 using namespace std;
 
 void Dictionary::mkdir(string dirName, string currentFolder) {
@@ -258,4 +260,150 @@ void Dictionary::echo(string fileContent, string fileName, string currentFolder)
 		}
 
 	}
+}
+
+bool Dictionary::searchFile(string fileName, string filePath) {
+	bool found = false;
+
+	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
+		if (this->fileDescriptorVector[i].fileName == fileName && this->fileDescriptorVector[i].filePath == filePath) {
+			found = true;	
+		}
+	}
+	return found;
+}
+bool Dictionary::searchDirectory(string folder, string subfolder) {
+	bool found = false;
+	if (folder == "root" && (subfolder.size() == 0 || subfolder == "root")) {
+		// faking the root directory
+		found = true;
+	}
+	else {
+		for (unsigned int i = 0; i < this->system.size(); i++) {
+			if (this->system[i].folder == folder && this->system[i].subfolder == subfolder) {
+				found = true;
+			}
+		}
+	}
+	return found;
+}
+
+string Dictionary::getLastElement(string fullPath) {
+	string lastElement;
+	if (fullPath.find_first_of("/") == string::npos) {
+		lastElement = fullPath;
+	}
+	else {
+		lastElement = fullPath.substr(fullPath.find_last_of("/") + 1, fullPath.size());
+	}
+	return lastElement;
+}
+
+string Dictionary::convertRelativeToAbsolutePath(string relativePath, string currentFolder) {
+	string absolutPath;
+	// ha nincs benne se . se ..
+	if (relativePath.find_first_of(".") == string::npos) {
+		absolutPath = currentFolder + "/" + relativePath;
+	}
+	//elso helyen van a .
+	if (relativePath.size() > 1 && relativePath.at(0) == '.' && relativePath.at(1) == '/') {
+		absolutPath = currentFolder + "/" + relativePath.substr(2, relativePath.size());
+	} else if (relativePath.size() == 2 && relativePath.at(0) == '.'  && relativePath.at(1) == '.') {
+		int cut = currentFolder.find_last_of("/");
+		string currentFolderParent = currentFolder.substr(0, cut);
+		absolutPath = currentFolderParent;
+	} else if (relativePath.size() > 2 && relativePath.at(0) == '.'  && relativePath.at(1) == '.' && relativePath.at(2) == '/') {
+		int cut = currentFolder.find_last_of("/");
+		string currentFolderParent = currentFolder.substr(0, cut);
+		string relativePathPart = relativePath.substr(2, relativePath.size());
+		if (relativePathPart.size() == 1 && relativePathPart.at(0) == '/')
+			absolutPath = currentFolderParent;
+		else
+			absolutPath = currentFolderParent + relativePathPart;
+	} else {
+		absolutPath = currentFolder + "/" + relativePath;
+	}
+
+	// ha /-re vegzodik, levagjuk
+	if (absolutPath.at(absolutPath.size() - 1) == '/')
+		absolutPath = absolutPath.substr(0, absolutPath.size() - 1);
+	return absolutPath;
+}
+
+string Dictionary::getPath(string fullPath, string currentFolder) {
+	string path;
+	if (fullPath.find_first_of("/") == string::npos) {
+		path = currentFolder;
+	}
+	else {
+		path = fullPath.substr(0, fullPath.find_last_of("/")+1);
+		path = convertRelativeToAbsolutePath(path, currentFolder);
+	}
+	return path;
+}
+
+string Dictionary::getParentPath(string fullPath) {
+	string path = fullPath.substr(0, fullPath.find_last_of("/"));
+	return path;
+}
+
+void Dictionary::moveFile(string sourcePath, string sourceLastElement, string destPath, string destLastElement) {
+	bool found = false;
+	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
+		if (!found && this->fileDescriptorVector[i].fileName == sourceLastElement && this->fileDescriptorVector[i].filePath == sourcePath) {
+			this->fileDescriptorVector[i].fileName = destLastElement;
+			this->fileDescriptorVector[i].filePath = destPath;
+			found = true;
+			cout << "File "<< sourcePath << "/" << sourceLastElement  << " has been moved to " << destPath << "/" << destLastElement << endl;
+		}
+	}
+}
+
+void Dictionary::moveDirectory(string sourcePath, string sourceLastElement, string destPath, string destLastElement) {
+	bool found = false;
+	for (unsigned int i = 0; i < this->system.size(); i++) {
+		if (!found && this->system[i].folder == sourcePath && this->system[i].subfolder == sourceLastElement) {
+			this->system[i].folder = destPath;
+			this->system[i].subfolder = destLastElement;
+			found = true;
+			cout << "Directory " << sourcePath << "/" << sourceLastElement << " has been moved to " << destPath << "/" << destLastElement << endl;
+		}
+	}
+
+}
+
+void Dictionary::mv(string currentFolder, string source, string dest) {
+	string sourcePath = getPath(source, currentFolder);
+	string sourceLastElement = getLastElement(source);
+	string destPath = getPath(dest, currentFolder);
+	string destLastElement = getLastElement(dest);
+
+	bool isSourceFile = searchFile(sourceLastElement, sourcePath);
+	bool isSourceDirectory = searchDirectory(sourcePath, sourceLastElement);
+	bool isDestFile = searchFile(destLastElement, destPath);
+	bool isDestDirectory = searchDirectory(destPath, destLastElement);
+
+	if (isDestDirectory) {
+		destPath = destPath + "/" + destLastElement;
+		destLastElement = sourceLastElement;
+		isDestFile = searchFile(destLastElement, destPath);
+		isDestDirectory = searchDirectory(destPath, destLastElement);
+	}
+
+	if (isSourceFile == false && isSourceDirectory == false) {
+		cout << "No such source file/directory!" << endl;
+	}
+	else if (isDestFile == true || isDestDirectory == true) {
+		cout << "The destination file/directory already exists!" << endl;
+	}
+	else if (isDestFile == false && isDestDirectory == false && searchDirectory(getParentPath(destPath), getLastElement(destPath)) == false) {
+		cout << "Neither the destination directory nor the parent of destination directory exist !" << endl;
+	}
+	else {
+		if (isSourceFile) 
+			moveFile(sourcePath, sourceLastElement, destPath, destLastElement);
+		else 
+			moveDirectory(sourcePath, sourceLastElement, destPath, destLastElement);
+	}
+
 }

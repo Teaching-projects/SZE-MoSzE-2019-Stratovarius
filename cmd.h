@@ -20,15 +20,26 @@ class Dictionary {
 private:
 	vector<Pair> system;
 	vector<FileDescriptor> fileDescriptorVector;
+	void deleteRecursively(string toDelete, string currentFolder);
+	bool searchFile(string fileName, string filePath);
+	bool searchDirectory(string forder, string subfolder);
+	string getLastElement(string fullPath);
+	string getPath(string fullPath, string currentFolder);
+	string getParentPath(string fullPath);
+	string convertRelativeToAbsolutePath(string relativePath, string currentFolder);
+	void moveFile(string sourcePath, string sourceLastElement, string destPath, string destLastElement);
+	void moveDirectory(string sourcePath, string sourceLastElement, string destPath, string destLastElement);
+
 public:
 	void mkdir(string dirName, string currentFolder);
 	void ls(string currentFolder);
 	string cd(string dirName, string currentFolder);
 	void rm(string dirName, string currentFolder);
-	void deleteRecursively(string toDelete, string currentFolder);
 	void rmForce(string dirName, string currentFolder);
 	void touch(string fileName, string currentFolder);
 	void echo(string fileContent, string fileName, string currentFolder);
+	void mv(string currentFolder, string source, string dest);
+
 };
 
 #endif
