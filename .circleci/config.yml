@@ -19,6 +19,7 @@ jobs:
           at: .
       - run: 'sudo apt-get update'
       - run: 'sudo apt-get install cppcheck'
+      - run: 'cppcheck *.* --language=c++ --enable=warning --error-exitcode=1'
       - run: 'chmod 755 test'
       - run: './test'
 
