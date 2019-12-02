@@ -17,6 +17,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: 'sudo apt-get update'
+      - run: 'sudo apt-get install cppcheck'
       - run: 'chmod 755 test'
       - run: './test'
 
