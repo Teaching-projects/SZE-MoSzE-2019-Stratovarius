@@ -1,7 +1,7 @@
-#include "cmd.h"
+﻿#include "cmd.h"
+using namespace std;
 #include <iostream>
 #include <fstream>
-using namespace std;
 
 Pair::Pair() {
 	this->folder = "";
@@ -13,11 +13,18 @@ Pair::Pair(string folder, string subfolder) {
 }
 
 void Dictionary::mkdir(string dirName, string currentFolder) {
+	/**@brief Mappa létrehozása
+	*@param dirName egy mappanevet kell megadni a függvénynek, mégpedig amilyen néven létre szeretnénk hozni.
+	*@param currentFolder át kell adni az aktuális tartózkodási helyet a mapparendszeren belül és ott kerül létrehozásra a mappa.
+	*/
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (currentFolder == this->system[i].folder && dirName == this->system[i].subfolder) {
-				found = true;
+			found = true;
 		}
+		/**@brief Mappa ellenõrzése
+		*@return Igaz értéket ad vissza, ha a mappa létezik.
+		*/
 	}
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
 		if (dirName == this->fileDescriptorVector[i].fileName && currentFolder == this->fileDescriptorVector[i].filePath) {
@@ -39,11 +46,9 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 }
 
 void Dictionary::ls(string currentFolder) {
-
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (currentFolder == this->system[i].folder) {
-			if (this->system[i].subfolder != "root")
-				cout << this->system[i].subfolder << endl;
+			cout << this->system[i].subfolder << endl;
 		}
 	}
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
@@ -229,8 +234,45 @@ void Dictionary::touch(string fileName, string currentFolder) {
 			cout << "Invalid filename" << endl;
 		}
 	}
+}
+void Dictionary::echo(string fileContent, string fileName, string currentFolder) {
+	bool foundDirectory = false;
+	for (unsigned int i = 0; i < this->system.size(); i++) {
+		if (fileName == this->system[i].subfolder) {
+			foundDirectory = true;
+		}
+	}
+	if (foundDirectory) {
+		cout << "This directory already exists" << endl;
+	}
+	else {
+		bool foundFile = false;
 
+		for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
+			if (fileName == this->fileDescriptorVector[i].fileName) {
+				this->fileDescriptorVector[i].fileContent = fileContent;
+				foundFile = true;
+			}
+		}
+		if (!foundFile) {
+			if (fileName != ".." && fileName != ".") {
+				FileDescriptor currentFileData;
+				if (fileContent == "\"\"") {
+					currentFileData.fileContent = "";
+				}
+				else {
+					currentFileData.fileContent = fileContent;
+				}
+				currentFileData.fileName = fileName;
+				currentFileData.filePath = currentFolder;
+				this->fileDescriptorVector.push_back(currentFileData);
+			}
+			else {
+				cout << "Invalid filename" << endl;
+			}
+		}
 
+	}
 }
 
 void Dictionary::writeToFile(string fsname) {
@@ -297,43 +339,28 @@ bool Dictionary::validcommand(string command) {
 	return valid;
 
 }
-void Dictionary::echo(string fileContent, string fileName, string currentFolder) {
-	bool foundDirectory = false;
-	for (unsigned int i = 0; i < this->system.size(); i++) {
-		if (fileName == this->system[i].subfolder) {
-			foundDirectory = true;
-		}
-	}
-	if (foundDirectory) {
-		cout << "This directory already exists" << endl;
-	}
-	else {
-		bool foundFile = false;
 
-		for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
-			if (fileName == this->fileDescriptorVector[i].fileName) {
-				this->fileDescriptorVector[i].fileContent = fileContent;
-				foundFile = true;
-			}
-		}
-		if (!foundFile) {
-			if (fileName != ".." && fileName != ".") {
-				FileDescriptor currentFileData;
-				if (fileContent == "\"\"") {
-					currentFileData.fileContent = "";
+
+void Dictionary::splitDirNameAndPath(string dirname, string CurrentFolder, vector<string>path) {
+		path.pop_back();
+		dirname = dirname.substr(dirname.find_last_of("/") + 1, dirname.size());
+		for (unsigned int i = 0; i < path.size(); i++) {
+			if (path[i] == "..") {
+				if (CurrentFolder != "root") {
+					CurrentFolder=splitCurrentFolder(CurrentFolder);
 				}
 				else {
-					currentFileData.fileContent = fileContent;
+					cout << "You're already in the root directory." << endl;
 				}
-				currentFileData.fileName = fileName;
-				currentFileData.filePath = currentFolder;
-				this->fileDescriptorVector.push_back(currentFileData);
 			}
 			else {
-				cout << "Invalid filename" << endl;
+				CurrentFolder = cd(path[i], CurrentFolder);
 			}
 		}
+}
 
-	}
-
+string Dictionary::splitCurrentFolder(string CurrentFolder) {
+	int cut = CurrentFolder.find_last_of("/");
+	CurrentFolder = CurrentFolder.substr(0, cut);
+	return CurrentFolder;
 }

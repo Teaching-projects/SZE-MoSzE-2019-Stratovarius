@@ -1,6 +1,5 @@
-#include "cmd.h"
-
-
+﻿#include "cmd.h"
+#include <map>
 vector<string> split(string path) {
 	vector<string> directories;
 	int cut = 0;
@@ -13,15 +12,38 @@ vector<string> split(string path) {
 	return directories;
 }
 
+enum commands {
+	mkdir, exitsys, ls, cd, rm, touch, echo,
+};
+map<string, commands> userCommands;
+
+void checkCommands() {
+	userCommands["mkdir"] = mkdir;
+	userCommands["exit"] = exitsys;
+	userCommands["ls"] = ls;
+	userCommands["cd"] = cd;
+	userCommands["rm"] = rm;
+	userCommands["touch"] = touch;
+	userCommands["echo"] = echo;
+}
+
 int main() {
-	cout << "Please add a valid file name to load filesystem from. " << endl;
 	cout << "Welcome in the terminal. Write exit' to exit." << endl;
+	cout << "Please add a valid file name to load filesystem from. " << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
 	string dirname;
 	string fsname;
 	cin >> fsname;
+	checkCommands();
+	/** A main fuggvenyrol
+	*
+	*Ez a fuggveny reteges szerkezete egy else ranezesre if-ek tomegenek nez ki, de valojaban ezzel sok hely meg lett sporolva.
+	*Vannak olyan resze a parancsoknak amik bar kozosek megsem erdemes egy fuggvenybe kiszedni, de egy if-fel el tudjuk kuloniteni, hogy ne kelljen tul sokszor be�rni.
+	*Minden parancsot külön kezelünk es előtte megnezzuk szerepel-e az erveyes parancsok kozott.
+	*Minden fuggveny a maga hibauzenetevel rendelkezik.
+	*/
 	while (d.validcommand(fsname)) {
 		cout << "Not valid name. Please add a valid file name to load filesystem from. " << endl;
 		cin >> fsname;
@@ -33,7 +55,7 @@ int main() {
 		cout << autotext;
 		cin >> parancs;
 		if (parancs == "exit") break;
-		if (!d.validcommand(parancs)) {
+		else if (!d.validcommand(parancs)) {
 			cout << "'" << parancs << "' is not recognized as an internal or external command, operable program or batch file." << endl;
 		}
 		else {
@@ -45,65 +67,50 @@ int main() {
 				vector<string> path;
 				if (dirname.find_first_of("/") != string::npos) {
 					path = split(dirname);
-					path.pop_back();
-					dirname = dirname.substr(dirname.find_last_of("/") + 1, dirname.size());
-					for (unsigned int i = 0; i < path.size(); i++) {
-						if (path[i] == "..") {
+					d.splitDirNameAndPath(dirname, CurrentFolder, path);
+				}
+				switch (userCommands[parancs]) {
+					case mkdir:
+						d.mkdir(dirname, CurrentFolder);
+						break;
+					case cd:
+						if (dirname == "..") {
 							if (CurrentFolder != "root") {
-								int cut = CurrentFolder.find_last_of("/");
-								CurrentFolder = CurrentFolder.substr(0, cut);
+								CurrentFolder=d.splitCurrentFolder(CurrentFolder);
 							}
 							else {
 								cout << "You're already in the root directory." << endl;
 							}
 						}
 						else {
-							CurrentFolder = d.cd(path[i], CurrentFolder);
+							CurrentFolder = d.cd(dirname, CurrentFolder);
 						}
-					}
-				}
-				if (parancs == "mkdir") {
-					d.mkdir(dirname, CurrentFolder);
-				}
-				if (parancs == "cd") {
-					if (dirname == "..") {
-						if (CurrentFolder != "root") {
-							int cut = CurrentFolder.find_last_of("/");
-							CurrentFolder = CurrentFolder.substr(0, cut);
+						break;
+					case rm:
+						if (dirname == "-rf") {
+							cin >> dirname;
+							d.rmForce(dirname, CurrentFolder);
+						}
+						else d.rm(dirname, CurrentFolder);
+						break;
+					case touch:
+						d.touch(dirname, CurrentFolder);
+						break;
+					case echo:
+						string fileContent;
+						fileContent = dirname;
+						string redirectSign;
+						cin >> redirectSign;
+						string fileName;
+						cin >> fileName;
+						if (redirectSign != ">") {
+							cout << "Invalid command!" << endl;
 						}
 						else {
-							cout << "You're already in the root directory." << endl;
+							d.echo(fileContent, fileName, CurrentFolder);
 						}
+						break;
 					}
-					else {
-						CurrentFolder = d.cd(dirname, CurrentFolder);
-					}
-
-				}
-				if (parancs == "rm") {
-					if (dirname == "-rf") {
-						cin >> dirname;
-						d.rmForce(dirname, CurrentFolder);
-					}
-					else d.rm(dirname, CurrentFolder);
-				}
-				if (parancs == "touch") {
-					d.touch(dirname, CurrentFolder);
-				}
-				if (parancs == "echo") {
-					string fileContent;
-					fileContent = dirname;
-					string redirectSign;
-					cin >> redirectSign;
-					string fileName;
-					cin >> fileName;
-					if (redirectSign != ">") {
-						cout << "Invalid command!" << endl;
-					}
-					else {
-						d.echo(fileContent, fileName, CurrentFolder);
-					}
-				}
 			}
 		}
 	}

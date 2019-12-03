@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ struct Pair {
 	Pair();
 	Pair(string folder, string subfolder);
 };
+
 struct FileDescriptor {
 	string fileName;
 	string filePath;
@@ -22,7 +24,7 @@ class Dictionary {
 private:
 	vector<Pair> system;
 	vector<FileDescriptor> fileDescriptorVector;
-	vector<string> commands = { "mkdir","exit","ls","cd","rm","touch" };
+	vector<string> commands = { "mkdir","exit","ls","cd","rm","touch", "echo" };
 public:
 	void mkdir(string dirName, string currentFolder);
 	void ls(string currentFolder);
@@ -31,6 +33,7 @@ public:
 	void deleteRecursively(string toDelete, string currentFolder);
 	void rmForce(string dirName, string currentFolder);
 	void touch(string fileName, string currentFolder);
+	void echo(string fileContent, string fileName, string currentFolder);
 	void writeToFile(string fsname);
 	void loadFromFile(string fsname);
 	void splitString(string& str, vector<string>& out, string delim);
@@ -38,7 +41,8 @@ public:
 	void splitFolderPath(string line);
 	bool isNotValid(string dirName);
 	bool validcommand(string command);
-	void echo(string fileContent, string fileName, string currentFolder);
+	void splitDirNameAndPath(string dirname, string CurrentFolder, vector<string>path);
+	string splitCurrentFolder(string CurrentFolder);
 };
 
 #endif
