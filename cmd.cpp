@@ -36,7 +36,7 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 	}
 	else
 	{
-		if (!(this->isNotValid(dirName))) {
+		if (!(this->isValid(dirName))) {
 			this->addPairToVector(currentFolder, dirName);
 		}
 		else {
@@ -308,8 +308,7 @@ void Dictionary::splitString(string& str, vector<string>& out, string delim) {
 }
 
 void Dictionary::addPairToVector(string folder, string subfolder) {
-	Pair p(folder, subfolder);
-	this->system.push_back(p);
+	this->system.push_back(Pair(folder, subfolder));
 }
 
 void Dictionary::splitFolderPath(string line) {
@@ -321,7 +320,7 @@ void Dictionary::splitFolderPath(string line) {
 	this->system.push_back(p);
 }
 
-bool Dictionary::isNotValid(string dirName) {
+bool Dictionary::isValid(string dirName) {
 	if (isalpha(dirName[0]))
 		return false;
 	else
@@ -359,8 +358,14 @@ void Dictionary::splitDirNameAndPath(string dirname, string CurrentFolder, vecto
 		}
 }
 
+
 string Dictionary::splitCurrentFolder(string CurrentFolder) {
 	int cut = CurrentFolder.find_last_of("/");
 	CurrentFolder = CurrentFolder.substr(0, cut);
 	return CurrentFolder;
 }
+
+
+
+
+

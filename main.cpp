@@ -45,7 +45,7 @@ int main() {
 	*Minden fuggveny a maga hibauzenetevel rendelkezik.
 	*/
 	while (d.validcommand(fsname)) {
-		cout << "Not valid name. Please add a valid file name to load filesystem from. " << endl;
+		cout << "You entered a command. Please add a valid file name to load filesystem from. " << endl;
 		cin >> fsname;
 		if (fsname == "exit") break;
 	}
