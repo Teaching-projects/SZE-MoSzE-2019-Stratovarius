@@ -1,5 +1,6 @@
-﻿#include "cmd.h"
+#include "cmd.h"
 #include <map>
+
 vector<string> split(string path) {
 	vector<string> directories;
 	int cut = 0;
@@ -61,6 +62,13 @@ int main() {
 		else {
 			if (parancs == "ls") {
 				d.ls(CurrentFolder);
+			}
+			else if (parancs == "mv") {
+				string source;
+				cin >> source;
+				string dest;
+				cin >> dest;
+				d.mv(CurrentFolder, source, dest);
 			}
 			else {
 				cin >> dirname;
