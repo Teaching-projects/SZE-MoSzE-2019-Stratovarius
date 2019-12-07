@@ -11,8 +11,8 @@ jobs:
           paths:
             - terminal
   test:
-    machine:
-      image: ubuntu-1604:201903-01
+    docker:
+      - image: vasaszs/ubuntu16_image:ubuntubuild1604image
     steps:
       - checkout
       - attach_workspace:
