@@ -5,6 +5,8 @@ jobs:
       image: ubuntu-1604:201903-01
      steps:
       - checkout
+      - run: 'sudo apt-get update'
+      - run: 'sudo apt-get install cppcheck'
       - run: 'cppcheck *.* --language=c++ --enable=warning --error-exitcode=1'
   build:
     machine:
@@ -23,8 +25,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 'sudo apt-get update'
-      - run: 'sudo apt-get install cppcheck'
       - run: 'chmod 755 test'
       - run: './test'
 
