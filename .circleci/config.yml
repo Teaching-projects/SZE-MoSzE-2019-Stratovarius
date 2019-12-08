@@ -1,5 +1,11 @@
 version: 2
 jobs:
+  sca:
+     machine:
+      image: ubuntu-1604:201903-01
+     steps:
+      - checkout
+      - run: 'cppcheck *.* --language=c++ --enable=warning --error-exitcode=1'
   build:
     machine:
       image: ubuntu-1604:201903-01
@@ -19,14 +25,14 @@ jobs:
           at: .
       - run: 'sudo apt-get update'
       - run: 'sudo apt-get install cppcheck'
-      - run: 'cppcheck *.* --language=c++ --enable=warning --error-exitcode=1'
       - run: 'chmod 755 test'
       - run: './test'
 
 workflows:
   version: 2
-  build_and_test:
+  sca_build_and_test:
     jobs:
+      - sca
       - build
       - test:
           requires:
