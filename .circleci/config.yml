@@ -27,6 +27,15 @@ jobs:
           at: .
       - run: 'chmod 755 test'
       - run: './test'
+   doxygen:
+    docker:
+       - image: vasaszs/doxygen:doxygen-image
+    steps:
+      - checkout
+      - run: 'cd Doxygen && doxygen && make -C latex/.'
+      - store_artifacts:
+          path: Doxygen/latex/refman.pdf
+          destination: documentation.pdf
 
 workflows:
   version: 2
@@ -35,5 +44,8 @@ workflows:
       - sca
       - build
       - test:
+          requires:
+            - build
+      - doxygen:
           requires:
             - build
