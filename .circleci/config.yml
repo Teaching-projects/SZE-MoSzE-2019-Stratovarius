@@ -6,6 +6,9 @@ jobs:
      steps:
       - checkout
       - run: 'cd Doxygen && doxygen && make -C latex/.'
+      - store_artifacts:
+          path: Doxygen/latex/refman.pdf
+          destination: documentation.pdf
   sca:
      machine:
       image: ubuntu-1604:201903-01
