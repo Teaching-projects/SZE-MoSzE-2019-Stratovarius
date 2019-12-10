@@ -5,7 +5,7 @@ jobs:
       - image: vasaszs/doxygen:doxygen-image
      steps:
       - checkout
-      - run: 'echo "Hello World!"'
+      - run: 'cd Doxygen && doxygen && make -C latex/.'
   sca:
      machine:
       image: ubuntu-1604:201903-01
