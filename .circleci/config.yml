@@ -46,6 +46,4 @@ workflows:
       - test:
           requires:
             - build
-      - doxygen:
-          requires:
-            - build  
+      - doxygen 
