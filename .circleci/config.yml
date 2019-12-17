@@ -1,14 +1,5 @@
 version: 2
 jobs:
-  doxygen:
-     docker:
-      - image: vasaszs/doxygen:doxygen-image
-     steps:
-      - checkout
-      - run: 'cd Doxygen && doxygen && make -C latex/.'
-      - store_artifacts:
-          path: Doxygen/latex/refman.pdf
-          destination: documentation.pdf
   sca:
      machine:
       image: ubuntu-1604:201903-01
@@ -36,14 +27,25 @@ jobs:
           at: .
       - run: 'chmod 755 test'
       - run: './test'
+  doxygen:
+     docker:
+      - image: vasaszs/doxygen:doxygen-image
+     steps:
+      - checkout
+      - run: 'cd Doxygen && doxygen && make'
+      - store_artifacts:
+          path: Doxygen/latex/refman.pdf
+          destination: documentation.pdf
 
 workflows:
   version: 2
   sca_build_and_test:
-    jobs:
-      - doxygen    
+    jobs:  
       - sca
       - build
       - test:
           requires:
             - build
+      - doxygen:
+          requires:
+            - build  
