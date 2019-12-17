@@ -8,7 +8,7 @@ main.o: main.cpp
 cmd.o: cmd.cpp
 	g++ -c cmd.cpp $(CXXFLAGS)
 test.o: test.cpp
-	g++ -c test.cpp $(CXXFLAGS) -L/usr/lib/ -lgtest -lgtest_main -pthread
+	g++ $(CXXFLAGS) -o $@ -I/usr/src/gtest/include -L/usr/lib $^ /usr/lib/libgtest_main.a -lpthread -lgtest -lgtest_main
 clean:
 	rm -f *.o
 
