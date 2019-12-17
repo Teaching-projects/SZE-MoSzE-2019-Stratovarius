@@ -32,7 +32,7 @@ jobs:
       - image: vasaszs/doxygen:doxygen-image
      steps:
       - checkout
-      - run: 'cd Doxygen && doxygen && cd latex && make'
+      - run: 'cd Doxygen && doxygen && make -C latex/.'
       - store_artifacts:
           path: Doxygen/latex/refman.pdf
           destination: documentation.pdf
