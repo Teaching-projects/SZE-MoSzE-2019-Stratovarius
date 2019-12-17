@@ -4,8 +4,8 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 
-DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "terminal"
+DOXYFILE_ENCODING      = ISO-8859-2
+PROJECT_NAME           = "A Terminál program Doxygen dokumentációja Stratovarius csapat által"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          = "Doxygen dokumentacio Stratovarius csapat"
 PROJECT_LOGO           = 
