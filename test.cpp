@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include "./internal/gtest-internal.h"
 #include "cmd.h"
 #include "cmd.cpp"
 
