@@ -61,7 +61,7 @@ TEST(ValidCD, ValidCDTest) {
 
 TEST(ListFolders, ListFoldersTest) {
 	Dictionary dir;
-	testing::internal::CaptureStdout();	
+	CaptureStdout();	
 	string dirName = "Mappa";
 	string dirName2 = "Mappa2";
 	string expectedOutput = "Mappa\nMappa2\n";
@@ -69,7 +69,7 @@ TEST(ListFolders, ListFoldersTest) {
 	dir.mkdir(dirName, currentFolder);
 	dir.mkdir(dirName2, currentFolder);
 	dir.ls(currentFolder);
-	string output = testing::internal::GetCapturedStdout();
+	string output = GetCapturedStdout();
 	EXPECT_EQ(expectedOutput, output);
 	EXPECT_TRUE(true);
 }
