@@ -1,8 +1,10 @@
-OBJS=cmd.o main.o test.o
+OBJS=cmd.o main.o
 CXXFLAGS=-O2 -std=c++11
 
 terminal: $(OBJS)
 	g++ -o terminal $(OBJS)
+test: test.o
+	g++ -o test test.o
 main.o: main.cpp
 	g++ -c main.cpp $(CXXFLAGS)
 cmd.o: cmd.cpp
