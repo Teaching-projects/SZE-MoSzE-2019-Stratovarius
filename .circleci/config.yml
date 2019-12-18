@@ -40,9 +40,9 @@ jobs:
             git submodule init
             git submodule update
             cd /usr/src/gtest
-            sudo cmake CMakeLists.txt
-            sudo make
-            sudo cp *.a /usr/lib
+            cmake CMakeLists.txt
+            make
+            cp *.a /usr/lib
             cd $HOME/project
       - run: 
           name: 'Build Executable'
