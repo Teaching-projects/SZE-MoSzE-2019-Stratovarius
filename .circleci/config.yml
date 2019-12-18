@@ -28,7 +28,7 @@ jobs:
       - run: 'chmod 755 test'
       - run: './test'
   unittest:
-     docker:
+    docker:
       - image: vasaszs/gtest:gtest
     steps:
       - checkout
