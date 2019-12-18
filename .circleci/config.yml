@@ -39,7 +39,6 @@ jobs:
           command: |
             git submodule init
             git submodule update
-            sudo apt-get -y -q update
             cd /usr/src/gtest
             sudo cmake CMakeLists.txt
             sudo make
