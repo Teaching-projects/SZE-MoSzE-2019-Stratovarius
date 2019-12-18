@@ -29,7 +29,7 @@ jobs:
       - run: './test'
   unittest:
     docker:
-      - image: vasaszs/gtest:gtest
+      - image: vasaszs/gtest:gtest2
     steps:
       - checkout
       - attach_workspace:
