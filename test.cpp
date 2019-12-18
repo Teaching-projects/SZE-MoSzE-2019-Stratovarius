@@ -1,6 +1,5 @@
 #include "gtest/gtest.h"
 #include "cmd.h"
-#include "cmd.cpp"
 
 
 TEST(NotValidCommand, NotValidCommandTest) {
