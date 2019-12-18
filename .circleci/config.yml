@@ -9,10 +9,20 @@ jobs:
       - run: 'sudo apt-get install cppcheck'
       - run: 'cppcheck *.* --language=c++ --enable=warning --error-exitcode=1'
   build:
-    machine:
-      image: ubuntu-1604:201903-01
+    docker:
+      - image: vasaszs/gtest:gtest2
     steps:
       - checkout
+      - run: 
+          name: 'Unit testing'
+          command: |
+            git submodule init
+            git submodule update
+            cd /usr/src/gtest
+            cmake CMakeLists.txt
+            make
+            cp *.a /usr/lib
+            cd $HOME/project
       - run: 'make'
       - persist_to_workspace:
           root: .
@@ -34,19 +44,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: 
-          name: 'Unit testing'
-          command: |
-            git submodule init
-            git submodule update
-            cd /usr/src/gtest
-            cmake CMakeLists.txt
-            make
-            cp *.a /usr/lib
-            cd $HOME/project
-      - run: 
-          name: 'Build Executable'
-          command: 'make'
       - run: 
           name: 'Build Unit Test'
           command: 'make test'
