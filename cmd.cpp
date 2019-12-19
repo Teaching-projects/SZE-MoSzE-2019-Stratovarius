@@ -1,4 +1,4 @@
-#include "cmd.h"
+﻿#include "cmd.h"
 
 using namespace std;
 #include <iostream>
@@ -7,6 +7,12 @@ using namespace std;
 Pair::Pair() {
 	this->folder = "";
 	this->subfolder = "";
+/**
+ * A Pair azért külön osztály mivel így egy egységet képez a mappa és az ahhoz tartozó elérési út.
+ * Külön függvényei nincsenek. Ezért korábban struktúraként szerepelt.
+ * A folder tárolja a mappát, a hozzá vezető útvonalat pedig a subfolder.
+ * Minden mappa az abszolút elérési útjával (subfolder) tárolódik.
+ */
 }
 Pair::Pair(string folder, string subfolder) {
 	this->folder = folder;
@@ -47,6 +53,12 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 }
 
 void Dictionary::ls(string currentFolder) {
+      /**
+       * Listázás
+       * @see ls()
+       * Kilistázza az aktuális mappában található mappákat és fájlokat.
+       */
+
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (currentFolder == this->system[i].folder) {
 			cout << this->system[i].subfolder << endl;
@@ -59,6 +71,13 @@ void Dictionary::ls(string currentFolder) {
 	}
 }
 string Dictionary::cd(string dirName, string currentFolder) {
+      /**
+       * Mappa váltása
+       * @see cd()
+       * A cd, azaz ChangeDirectory parancs a mappák közti lépegetésre szolgál.
+       * @param dirName Megadhatunk egy mappát vagy egy elérési utat ahova át szeretnénk lépni vagy a .. parancsot, ha a szülőmappába szeretnénk eljutni.
+       * Hibaüzenetet ad, ha a root mappának a szülőjére vagy nem létező mappanévre hivatkozunk.
+       */
 	bool found = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if ((currentFolder == this->system[i].folder) && (dirName == this->system[i].subfolder)) {
@@ -330,6 +349,11 @@ bool Dictionary::isValid(string dirName) {
 
 
 bool Dictionary::validcommand(string command) {
+      /**
+       * Parancs ellenőrzés
+       * @see validcommand()
+       * @param command Megnézi az adott parancs szerepel-e az általunk definiált parancsok között.
+       */
 	bool valid = false;
 	for (unsigned int i = 0; i < this->commands.size(); i++) {
 		if (command == this->commands[i]) {
