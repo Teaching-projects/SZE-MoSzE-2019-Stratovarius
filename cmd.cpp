@@ -327,7 +327,7 @@ void Dictionary::writeToFile(string fsname) {
        */
 
 	ofstream systemStructure;
-	systemStructure.open(fsname + ".txt");
+	systemStructure.open(fsname);
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		systemStructure << this->system[i].folder << "/" << this->system[i].subfolder << "\n";
 	}
