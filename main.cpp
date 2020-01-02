@@ -54,6 +54,7 @@ int main() {
 		extension = d.checkExtension(fsname);
 		if (fsname == "exit") break;
 	}
+	fsname=d.removeExtension(fsname);
 	d.loadFromFile(fsname);
 	while (parancs != "exit") {
 		string autotext = "C:/" + CurrentFolder + ">";
