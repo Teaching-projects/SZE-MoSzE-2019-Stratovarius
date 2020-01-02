@@ -564,3 +564,22 @@ void Dictionary::mv(string currentFolder, string source, string dest) {
 	}
 
 }
+
+string Dictionary::checkExtension(string filename) {
+	string extension;
+	int dotpos = filename.find_first_of(".");
+	if (dotpos > 0) {
+		extension = filename.substr(dotpos);
+	}
+	return extension;
+}
+
+
+string Dictionary::removeExtension(string filename) {
+	string extension;
+	int dotpos = filename.find_first_of(".");
+	if (dotpos > 0) {
+		filename = filename.substr(0,dotpos);
+	}
+	return filename;
+}
