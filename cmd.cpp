@@ -321,6 +321,11 @@ void Dictionary::echo(string fileContent, string fileName, string currentFolder)
 }
 
 void Dictionary::writeToFile(string fsname) {
+	/**
+       * Fájlba íráshoz függvény
+       * Exit parancs megadásakor automatikusan az először beírt fájlnevű txt fájlba menti a mappákat.
+       */
+
 	ofstream systemStructure;
 	systemStructure.open(fsname + ".txt");
 	for (unsigned int i = 0; i < this->system.size(); i++) {
@@ -330,8 +335,12 @@ void Dictionary::writeToFile(string fsname) {
 }
 
 void Dictionary::loadFromFile(string fsname) {
+	/**
+       * Fájlból betöltés
+       * Adott fájlból betölti a könyvtártruktúrát
+       */
 	string line;
-	ifstream systemStructure(fsname + ".txt");
+	ifstream systemStructure(fsname);
 	if (systemStructure.is_open())
 	{
 		while (getline(systemStructure, line))
@@ -343,6 +352,10 @@ void Dictionary::loadFromFile(string fsname) {
 }
 
 void Dictionary::splitString(string& str, vector<string>& out, string delim) {
+	/**
+       * Segédfüggvény
+       * Adott elválasztó karakter alapján felbontja részekre a stringet
+       */
 	size_t start;
 	size_t end = 0;
 	while ((start = str.find_first_not_of(delim, end)) != std::string::npos)
@@ -357,6 +370,10 @@ void Dictionary::addPairToVector(string folder, string subfolder) {
 }
 
 void Dictionary::splitFolderPath(string line) {
+	/**
+       * Segédfüggvény
+       * Adott elválasztó karakter alapján felbontja részekre a mappaútvonalat
+       */
 	string path = line;
 	int cut = line.find_last_of("/");
 	line = line.substr(cut + 1, line.size());
@@ -566,6 +583,10 @@ void Dictionary::mv(string currentFolder, string source, string dest) {
 }
 
 string Dictionary::checkExtension(string filename) {
+	/**
+       * Kiterjesztésellenörző függvény
+       * Adott fájlnév esetén ellenőrzi, hogy megfelelő-e a kiterjesztés
+       */
 	string extension;
 	int dotpos = filename.find_first_of(".");
 	if (dotpos > 0) {
@@ -575,11 +596,4 @@ string Dictionary::checkExtension(string filename) {
 }
 
 
-string Dictionary::removeExtension(string filename) {
-	string extension;
-	int dotpos = filename.find_first_of(".");
-	if (dotpos > 0) {
-		filename = filename.substr(0,dotpos);
-	}
-	return filename;
-}
+
