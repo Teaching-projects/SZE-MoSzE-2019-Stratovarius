@@ -595,5 +595,13 @@ string Dictionary::checkExtension(string filename) {
 	return extension;
 }
 
+string Dictionary::removeExtension(string filename) {
+	string extension;
+	int dotpos = filename.find_first_of(".");
+	if (dotpos > 0) {
+		filename = filename.substr(0,dotpos);
+	}
+	return filename;
+}
 
 
