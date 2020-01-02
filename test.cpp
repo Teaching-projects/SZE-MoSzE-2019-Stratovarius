@@ -58,7 +58,7 @@ TEST(ValidCD, ValidCDTest) {
 	EXPECT_EQ("Fomappa", goodOutput);
 	EXPECT_TRUE(true);
 }
-/*
+
 TEST(ListFolders, ListFoldersTest) {
 	Dictionary dir;
 	CaptureStdout();	
@@ -103,7 +103,6 @@ TEST(ValidRemoveList, ValidRemoveListTest) {
 	EXPECT_EQ(expectedOutput, output);
 	EXPECT_TRUE(true);
 }
-*/
 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
