@@ -1,4 +1,5 @@
-Welcome in the terminal. Press 'q' to exit.
+Welcome in the terminal. Write exit' to exit.
+Please add a valid filename with 'txt' extension to load filesystem from.
 C:/root>C:/root>a
 C:/root>C:/root/a>C:/root/a>C:/root>C:/root>Directory is not empty, deleting content recursively ...
 Deleted:b.txt
