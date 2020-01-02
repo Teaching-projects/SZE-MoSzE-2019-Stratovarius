@@ -30,14 +30,17 @@ void checkCommands() {
 
 int main() {
 	cout << "Welcome in the terminal. Write exit' to exit." << endl;
-	cout << "Please add a valid file name to load filesystem from. " << endl;
+	cout << "Please add a valid filename with 'txt' extension to load filesystem from. " << endl;
 	string CurrentFolder = "root";
 	Dictionary d;
 	string parancs;
 	string dirname;
 	string fsname;
+	string desiredExtension = ".txt";
+	string extension;
 	cin >> fsname;
 	checkCommands();
+	extension = d.checkExtension(fsname);
 	/** A main fuggvenyrol
 	*
 	*Ez a fuggveny reteges szerkezete egy else ranezesre if-ek tomegenek nez ki, de valojaban ezzel sok hely meg lett sporolva.
@@ -45,11 +48,13 @@ int main() {
 	*Minden parancsot külön kezelünk es előtte megnezzuk szerepel-e az erveyes parancsok kozott.
 	*Minden fuggveny a maga hibauzenetevel rendelkezik.
 	*/
-	while (d.validcommand(fsname)) {
-		cout << "You entered a command. Please add a valid file name to load filesystem from. " << endl;
+	while (extension!=desiredExtension) {
+		cout << "You entered a wrong filename. Please add a valid file name with '.txt' extension to load filesystem from. " << endl;
 		cin >> fsname;
+		extension = d.checkExtension(fsname);
 		if (fsname == "exit") break;
 	}
+	fsname=d.removeExtension(fsname);
 	d.loadFromFile(fsname);
 	while (parancs != "exit") {
 		string autotext = "C:/" + CurrentFolder + ">";
