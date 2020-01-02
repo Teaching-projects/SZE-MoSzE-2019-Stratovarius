@@ -27,7 +27,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - terminal
+            - ./test.o
   test:
     machine:
       image: ubuntu-1604:201903-01
