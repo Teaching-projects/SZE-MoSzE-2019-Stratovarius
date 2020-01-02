@@ -54,7 +54,6 @@ public:
 	string splitCurrentFolder(string CurrentFolder);
 	void mv(string currentFolder, string source, string dest);
 	string checkExtension(string filename);
-	string removeExtension(string filename);
 };
 
 #endif
