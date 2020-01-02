@@ -7,14 +7,14 @@ using namespace std;
 Pair::Pair() {
 	this->folder = "";
 	this->subfolder = "";
+}
+Pair::Pair(string folder, string subfolder) {
 /**
  * A Pair azért külön osztály mivel így egy egységet képez a mappa és az ahhoz tartozó elérési út.
  * Külön függvényei nincsenek. Ezért korábban struktúraként szerepelt.
  * A folder tárolja a mappát, a hozzá vezető útvonalat pedig a subfolder.
  * Minden mappa az abszolút elérési útjával (subfolder) tárolódik.
  */
-}
-Pair::Pair(string folder, string subfolder) {
 	this->folder = folder;
 	this->subfolder = subfolder;
 }
@@ -36,6 +36,9 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
 		if (dirName == this->fileDescriptorVector[i].fileName && currentFolder == this->fileDescriptorVector[i].filePath) {
 			found = true;
+		/**@brief Fájl ellenõrzése
+		*@return Igaz értéket ad vissza, ha a fájl létezik.
+		*/
 		}
 	}
 	if (found) {
@@ -43,7 +46,7 @@ void Dictionary::mkdir(string dirName, string currentFolder) {
 	}
 	else
 	{
-		if (!(this->isValid(dirName))) {
+		if (this->isValid(dirName)) {
 			this->addPairToVector(currentFolder, dirName);
 		}
 		else {
@@ -93,6 +96,13 @@ string Dictionary::cd(string dirName, string currentFolder) {
 }
 
 void Dictionary::rm(string toDelete, string currentFolder) {
+	/**
+	 * Mappa törlése
+	 * @see rm()
+	 * A rm, azaz Remove parancs a mappák vagy fájlok törlését teszi lehetővé.
+	 * Törölhetőnek tekintünk egy fájlt vagy egy olyan mappát amelyik üres.
+	 * Törlés során ellenőrizni kell, hogy a mappában található-e másik mappa vagy fájl.
+	 */
 	bool found = false;
 
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
@@ -183,6 +193,11 @@ void Dictionary::deleteRecursively(string toDelete, string currentFolder) {
 }
 
 void Dictionary::rmForce(string toDelete, string currentFolder) {
+	/**
+	 * Mappa törlése
+	 * @see rm() -rf
+	 * Ha az rm -rf kapcsolóval lett meghívva képes kitörülni azokat a mappákat is amelyeknek már van tartalmuk.
+	 */
 	bool found = false;
 
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
@@ -228,6 +243,11 @@ void Dictionary::rmForce(string toDelete, string currentFolder) {
 	}
 }
 void Dictionary::touch(string fileName, string currentFolder) {
+	/**
+	 * Fájl létrehozása
+	 * @see touch()
+	 * A touch függvény egy fájlt hoz létre amennyiben az még nem lett létrehozva.
+	 */
 	bool found = false;
 	for (unsigned int i = 0; i < this->fileDescriptorVector.size(); i++) {
 		if (fileName == this->fileDescriptorVector[i].fileName && currentFolder == this->fileDescriptorVector[i].filePath) {
@@ -256,6 +276,11 @@ void Dictionary::touch(string fileName, string currentFolder) {
 	}
 }
 void Dictionary::echo(string fileContent, string fileName, string currentFolder) {
+	/**
+	 * Kiiratás
+	 * @see echo()
+	 * Az echo paranccsal egy fájl tartalmát lehet kiiratni, amennyiben az a fájl létezik.
+	 */
 	bool foundDirectory = false;
 	for (unsigned int i = 0; i < this->system.size(); i++) {
 		if (fileName == this->system[i].subfolder) {
@@ -341,10 +366,13 @@ void Dictionary::splitFolderPath(string line) {
 }
 
 bool Dictionary::isValid(string dirName) {
+	/**@brief Fájlnév validálása
+	*@return Igaz értéket ad vissza, ha a mappa megfelel a megadott kritériumoknak. Ezen esetben a mappa neve betüvel kell, hogy kezdődjön.
+	*/
 	if (isalpha(dirName[0]))
-		return false;
-	else
 		return true;
+	else
+		return false;
 }
 
 
